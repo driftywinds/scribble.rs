@@ -71,6 +71,10 @@ type Lobby struct {
 	// lobby object.
 	currentDrawing []any
 
+	// drawings contains the history of all drawings in the current lobby
+	// accross all rounds and games played.
+	Drawings [][]any
+
 	// These variables are used to define the ranges of connected drawing events.
 	// For example a line that has been drawn or a fill that has been executed.
 	// Since we can't trust the client to tell us this, we use the time passed

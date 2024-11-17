@@ -698,6 +698,13 @@ func advanceLobbyPredefineDrawer(lobby *Lobby, roundOver bool, newDrawer *Player
 
 	recalculateRanks(lobby)
 
+	// Prevents that the initial advance, used to start the game, applies
+	// an empty drawing.
+	if lobby.State == Ongoing {
+		// Append drawing to history. Since we reallocate on clear, this will be safe.
+		lobby.Drawings = append(lobby.Drawings, lobby.currentDrawing)
+	}
+
 	if roundOver {
 		// Game over, meaning all rounds have been played out. Alternatively
 		// We can reach this state if all players are spectating and or are not
@@ -726,8 +733,8 @@ func advanceLobbyPredefineDrawer(lobby *Lobby, roundOver bool, newDrawer *Player
 
 		lobby.Round++
 	}
-
 	lobby.ClearDrawing()
+
 	newDrawer.State = Drawing
 	lobby.State = Ongoing
 	lobby.wordChoice = GetRandomWords(3, lobby)
